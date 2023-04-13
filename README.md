@@ -4,7 +4,7 @@
 
 #Class Diagram (dbdiagram.io)
   
-  https://dbdiagram.io/d/626c0fe595e7f23c619c94ea
+  https://dbdiagram.io/d/6437dbef8615191cfa8da190
 
 # Liste des fonctionnalités
 
