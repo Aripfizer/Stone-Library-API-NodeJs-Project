@@ -2,6 +2,10 @@
 
   An API project to simulate the operation of a library. Use NodeJs + Express + TypeScript
 
+#Class Diagram (dbdiagram.io)
+  
+  https://dbdiagram.io/d/626c0fe595e7f23c619c94ea
+
 # Liste des fonctionnalités
 
 ## Authentification
@@ -45,5 +49,4 @@
 -   [ ] Consulter les types d'investissements 
 
 
-#Class Diagram (dbdiagram.io)
-https://dbdiagram.io/d/626c0fe595e7f23c619c94ea
+
