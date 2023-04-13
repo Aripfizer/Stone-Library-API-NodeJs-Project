@@ -1,4 +1,4 @@
-# STACK Library-API-NodeJs-Project
+# STACK Stone Library
 
   An API project to simulate the operation of a library. Use NodeJs + Express + TypeScript
 
