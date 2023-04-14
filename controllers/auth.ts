@@ -1,12 +1,10 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { body, validationResult } from 'express-validator';
 
 const login = (req: Request, res: Response) => {
-    let {fullname, email, password} = req.body;
+    let { email, password} = req.body;
     
     res.status(200).json({
-        fullname: fullname,
         email: email,
         password: password
     })
