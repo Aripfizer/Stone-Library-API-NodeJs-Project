@@ -1,35 +1,31 @@
-import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
+import { Request, Response } from "express";
+import bcrypt from "bcryptjs";
 
 const login = (req: Request, res: Response) => {
-    let { email, password} = req.body;
-    
-    res.status(200).json({
-        email: email,
-        password: password
-    })
+  let { email, password } = req.body;
+
+  res.status(200).json({
+    email: email,
+    password: password,
+  });
 };
 
 const register = async (req: Request, res: Response) => {
-    let {fullname, email, password} = req.body;
-    
-    try {
-        let salt = await bcrypt.genSalt(10);
-        let hashedPassword = await bcrypt.hash(password, salt);
-        
-        res.status(200).json({
-            fullname: fullname,
-            email: email,
-            password: password,
-            hashedPassword: hashedPassword
-        })
-    } catch (error:any) {
-        console.log(error)
-    }
-    
+  let { fullname, email, password } = req.body;
+
+  try {
+    let salt = await bcrypt.genSalt(10);
+    let hashedPassword = await bcrypt.hash(password, salt);
+
+    res.status(200).json({
+      fullname: fullname,
+      email: email,
+      password: password,
+      hashedPassword: hashedPassword,
+    });
+  } catch (error: any) {
+    console.log(error);
+  }
 };
 
-export {
-    login,
-    register
-  };
+export { login, register };
