@@ -9,7 +9,9 @@ db.sequelize.sync().then(() => {
     app.listen(port, () => {
         console.log(`Server running on http://localhost:${port}`)
     })
-})
+}).catch((err:any) => {
+    console.error('Error syncing database', err);
+  });
 
 // const app:Application = express();
 // app.use(express.json());

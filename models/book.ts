@@ -2,14 +2,14 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, UUIDV4 } from 'sequelize';
  
 module.exports = (sequelize:any, DataTypes:any) => {
-  class Book extends Model {
+  class Book extends Model<InferAttributes<Book>, InferCreationAttributes<Book>> {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
 
-    declare id: CreationOptional<string>;
+    declare id: CreationOptional<number>;
     declare title: string;
     declare isbn: string;
     declare resume: string;
@@ -18,20 +18,18 @@ module.exports = (sequelize:any, DataTypes:any) => {
     declare is_valid: boolean;
     declare loanStatus: boolean;
     declare published_at: Date;
-    declare createdAt: CreationOptional<Date>;
-    declare updatedAt: CreationOptional<Date>;
-
 
     static associate(models:any) {
       // define association here
+      Book.belongsTo(models.User)
     }
   }
   Book.init({
     id: {
-      type: DataTypes.UUID,
-      defaultValue: UUIDV4,
+      type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     title: {
       type: DataTypes.STRING,
@@ -64,11 +62,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
     published_at: {
       type: DataTypes.DATE,
       allowNull: true,
-    }, 
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
+    }
   }, {
     sequelize,
+    modelName: 'Book',
     tableName: 'books',
   });
   return Book;

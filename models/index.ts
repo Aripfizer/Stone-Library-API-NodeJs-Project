@@ -30,7 +30,7 @@ fs.readdirSync(__dirname)
       file.indexOf(".test.js") === -1
     );
   })
-  .forEach((file: string) => {
+  .forEach((file: any) => {
     const model = require(path.join(__dirname, file))(
       sequelize,
       Sequelize.DataTypes
