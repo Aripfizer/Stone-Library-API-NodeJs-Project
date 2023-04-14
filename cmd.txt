@@ -12,10 +12,23 @@ dotenv
 
 pg pg-hstore
 
+npm install bcryptjs @types/bcryptjs
+npm install --save express-validator @types/express-validator
+
+
 
 DROP TABLE users CASCADE;
 DROP TABLE loans CASCADE;
 DROP TABLE books CASCADE;
+
+
+
+
+
+
+
+
+
 
 
 
