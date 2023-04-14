@@ -13,6 +13,12 @@ dotenv
 pg pg-hstore
 
 
+DROP TABLE users CASCADE;
+DROP TABLE loans CASCADE;
+DROP TABLE books CASCADE;
+
+
+
 
 
 

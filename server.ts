@@ -1,16 +1,41 @@
-import express, { Application, Request, Response }  from "express";
-import { Sequelize } from "sequelize";
-import db  from './models';
+import express, { Application, Request, Response } from "express";
+import db from "./models";
+import { users } from "./seeders/users";
+import { books } from "./seeders/books";
 
-const app:Application = express();
+const app: Application = express();
 const port = process.env.PORT || 3000;
 
-db.sequelize.sync().then(() => {
+const createUsers = () => {
+  users.map((user) => {
+    db.User.findOrCreate({
+      where: { email: user.email },
+      defaults: user,
+    });
+  });
+};
+
+const createBooks = () => {
+  books.map((book: { title: any }) => {
+    db.Book.findOrCreate({
+      where: { title: book.title },
+      defaults: book,
+    });
+  });
+};
+
+db.sequelize
+  .sync()
+  .then(() => {
+    createUsers();
+    createBooks();
+    console.log(books);
     app.listen(port, () => {
-        console.log(`Server running on http://localhost:${port}`)
-    })
-}).catch((err:any) => {
-    console.error('Error syncing database', err);
+      console.log(`Server running on http://localhost:${port}`);
+    });
+  })
+  .catch((err: any) => {
+    console.error("Error syncing database", err);
   });
 
 // const app:Application = express();
@@ -38,7 +63,6 @@ db.sequelize.sync().then(() => {
 // app.get('/', (request:Request, response:Response) => {
 //     response.status(200).send(`<div style="background-color: green;">Je crois que tout va bien</div>`)
 // });
-
 
 // try {
 //     app.listen(port, () => {
