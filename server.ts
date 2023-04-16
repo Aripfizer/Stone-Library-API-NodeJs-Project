@@ -4,6 +4,9 @@ import { users } from "./seeders/users";
 import { books } from "./seeders/books";
 import userRoutes from './routes/users';
 import authRoutes from './routes/auth';
+import crypto from 'crypto';
+
+
 
 // CONFIGURATIONS
 
@@ -37,8 +40,11 @@ const createBooks = async () => {
 db.sequelize
   .sync()
   .then(async () => {
-    await createUsers();
-    await createBooks();
+    // await createUsers();
+    // await createBooks();
+    const randomBytes = crypto.randomBytes(64).toString('hex');
+    console.log( "yhe key Generated is : ", randomBytes, " END");
+
     app.listen(port, () => {
       console.log(`Server running on http://localhost:${port}`);
     });

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
+import db from "../models";
 
 const login = (req: Request, res: Response) => {
   let { email, password } = req.body;
@@ -13,16 +14,18 @@ const login = (req: Request, res: Response) => {
 const register = async (req: Request, res: Response) => {
   let { fullname, email, password } = req.body;
 
+  // console.log("User created : ");
   try {
     let salt = await bcrypt.genSalt(10);
     let hashedPassword = await bcrypt.hash(password, salt);
 
-    res.status(200).json({
+    let newUser = await db.User.create({
       fullname: fullname,
       email: email,
-      password: password,
-      hashedPassword: hashedPassword,
+      password: hashedPassword,
     });
+
+    res.status(201).json(newUser);
   } catch (error: any) {
     console.log(error);
   }
