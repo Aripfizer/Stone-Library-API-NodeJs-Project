@@ -9,7 +9,13 @@ const tokenSecret = process.env.TOKEN_SECRET!;
 interface userRequest extends Request {
   user?: any;
 }
-
+interface UserResponse {
+  id: number;
+  fullname: string;
+  email: string;
+  token: string;
+  role: string;
+}
 const ensureUserIsAuthenticate = async (
   req: userRequest,
   res: Response,
@@ -18,15 +24,29 @@ const ensureUserIsAuthenticate = async (
   try {
     const authToken = req.header("Authorization")?.replace("Bearer ", "")!;
     const decodedToken: any = jwt.verify(authToken, tokenSecret);
-    console.log("ID : ", decodedToken);
-    const user = await db.User.findByPk(decodedToken.id);
-
-    const tokenExistInDatabase = db.Token.findOne({
-      where: { value: authToken, UserId: decodedToken.id },
+    const user = await db.User.findOne({
+      where: { id: decodedToken.id },
+      include: { model: db.Role },
     });
 
+    
+    const tokenExistInDatabase = await db.Token.findOne({
+        where: { value: authToken, UserId: decodedToken.id },
+    });
+    console.log("USEEEEEEEEER : ", user);
+
     if (user && tokenExistInDatabase) {
-      req.user = user;
+      const userResponse: UserResponse = {
+        id: user.id,
+        fullname: user.fullname,
+        email: user.email,
+        token: authToken,
+        role: user.Role.name,
+      };
+
+      req.user = userResponse;
+
+      console.log("DATAAAAAAAAAAA : ", req.user);
       next();
     } else {
       throw new Error();

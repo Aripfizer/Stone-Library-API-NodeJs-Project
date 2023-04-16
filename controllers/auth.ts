@@ -63,13 +63,10 @@ const register = async (req: Request, res: Response) => {
 
   // console.log("User created : ");
   try {
-    let salt = await bcrypt.genSalt(10);
-    let hashedPassword = await bcrypt.hash(password, salt);
-
     let newUser = await db.User.create({
       fullname: fullname,
       email: email,
-      password: hashedPassword,
+      password: password,
     });
 
     const userResponse: UserResponse = {

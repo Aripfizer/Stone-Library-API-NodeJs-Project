@@ -6,6 +6,7 @@ import {
   CreationOptional,
   UUIDV4,
 } from "sequelize";
+import bcrypt from "bcryptjs";
 
 // type UserAttributes = {
 //   id: string,
@@ -34,6 +35,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       User.hasMany(models.Book);
       User.hasMany(models.Loan);
       User.hasMany(models.Token);
+      User.belongsTo(models.Role);
     }
   }
   User.init(
@@ -61,7 +63,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
     {
       tableName: "users",
       modelName: "User",
-      sequelize, // passing the `sequelize` instance is required
+      hooks: {
+        beforeCreate: async (User) => {
+          let salt = await bcrypt.genSalt(10);
+          let hashedPassword = await bcrypt.hash(User.password, salt);
+          User.password = hashedPassword;
+          console.log(User);
+        },
+      },
+      sequelize,
     }
   );
   return User;

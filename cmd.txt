@@ -20,7 +20,8 @@ npm install --save express-validator @types/express-validator
 DROP TABLE users CASCADE;
 DROP TABLE loans CASCADE;
 DROP TABLE books CASCADE;
-
+DROP TABLE roles CASCADE;
+DROP TABLE tokens CASCADE;
 
 
 

@@ -1,32 +1,26 @@
-import bcrypt from "bcryptjs";
-
-const cryptPassword = async () => {
-  let salt =  await bcrypt.genSalt(10)!;
-  let hashedPassword =  bcrypt.hash("admin", salt);
-  return hashedPassword;
-}
-
-
-
 export const users = [
   {
     fullname: "DOSSOU Ariel",
-    email: "arieldossou00@gmail.com",
-    password:  "admin" ,
+    email: "admin@gmail.com",
+    password: "Admin*1",
+    RoleId: 1,
   },
   {
     fullname: "Jean Mark",
     email: "jean@gmail.com",
-    password: "jean",
+    password: "Author*1",
+    RoleId: 2,
   },
   {
     fullname: "Frédérik Wilson",
     email: "frederick@gmail.com",
-    password: "frederick",
+    password: "Author*1",
+    RoleId: 2,
   },
   {
     fullname: "Steeve Stylton",
     email: "stylton@gmail.com",
-    password: "stylton",
+    password: "Author*1",
+    RoleId: 2,
   },
 ];

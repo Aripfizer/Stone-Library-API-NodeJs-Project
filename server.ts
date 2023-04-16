@@ -2,9 +2,10 @@ import express, { Application, Request, Response } from "express";
 import db from "./models";
 import { users } from "./seeders/users";
 import { books } from "./seeders/books";
+import { roles } from "./seeders/roles";
 import userRoutes from "./routes/users";
 import authRoutes from "./routes/auth";
-import crypto from "crypto";
+// import crypto from "crypto";
 
 // CONFIGURATIONS
 
@@ -14,6 +15,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //SEEDERS DATA WILL BE ADD TO THE DATABASE ID NOT EXIST
+
+const createRoles = async () => {
+  roles.map((role) => {
+    db.Role.findOrCreate({
+      where: { name: role.name },
+      defaults: role,
+    });
+  });
+};
+
+// const cryptPassword:string = async (password: string) => {
+//   let salt = await bcrypt.genSalt(10);
+//   let hashedPassword:string = await bcrypt.hash(password, salt);
+//   console.log("PASS : ", hashedPassword)
+//   return hashedPassword;
+// };
 
 const createUsers = async () => {
   users.map((user) => {
@@ -38,10 +55,11 @@ const createBooks = async () => {
 db.sequelize
   .sync()
   .then(async () => {
+    await createRoles();
     await createUsers();
     await createBooks();
-    const randomBytes = crypto.randomBytes(64).toString("hex");
-    console.log("yhe key Generated is : ", randomBytes, " END");
+    // const randomBytes = crypto.randomBytes(64).toString("hex");
+    // console.log("yhe key Generated is : ", randomBytes, " END");
 
     app.listen(port, () => {
       console.log(`Server running on http://localhost:${port}`);
