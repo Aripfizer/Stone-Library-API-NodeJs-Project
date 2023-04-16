@@ -6,10 +6,11 @@ import {
   updateUser,
   deleteUser,
 } from "../controllers/users";
+import ensureUserIsAuthenticate from "../middlewares/ensureUserIsAuthenticate";
 
 const router = express.Router();
 
-router.get("/", getUsers);
+router.get("/", ensureUserIsAuthenticate, getUsers);
 
 router.get("/:userID", getUser);
 
