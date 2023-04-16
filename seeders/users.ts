@@ -1,8 +1,18 @@
+import bcrypt from "bcryptjs";
+
+const cryptPassword = async () => {
+  let salt =  await bcrypt.genSalt(10)!;
+  let hashedPassword =  bcrypt.hash("admin", salt);
+  return hashedPassword;
+}
+
+
+
 export const users = [
   {
     fullname: "DOSSOU Ariel",
     email: "arieldossou00@gmail.com",
-    password: "admin",
+    password:  "admin" ,
   },
   {
     fullname: "Jean Mark",

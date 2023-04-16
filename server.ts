@@ -2,11 +2,9 @@ import express, { Application, Request, Response } from "express";
 import db from "./models";
 import { users } from "./seeders/users";
 import { books } from "./seeders/books";
-import userRoutes from './routes/users';
-import authRoutes from './routes/auth';
-import crypto from 'crypto';
-
-
+import userRoutes from "./routes/users";
+import authRoutes from "./routes/auth";
+import crypto from "crypto";
 
 // CONFIGURATIONS
 
@@ -40,10 +38,10 @@ const createBooks = async () => {
 db.sequelize
   .sync()
   .then(async () => {
-    // await createUsers();
-    // await createBooks();
-    const randomBytes = crypto.randomBytes(64).toString('hex');
-    console.log( "yhe key Generated is : ", randomBytes, " END");
+    await createUsers();
+    await createBooks();
+    const randomBytes = crypto.randomBytes(64).toString("hex");
+    console.log("yhe key Generated is : ", randomBytes, " END");
 
     app.listen(port, () => {
       console.log(`Server running on http://localhost:${port}`);
@@ -53,10 +51,10 @@ db.sequelize
     console.error("Error syncing database", err);
   });
 
-//ROUTING 
+//ROUTING
 
-app.use('/api', authRoutes);
-app.use('/api/users', userRoutes)
+app.use("/api", authRoutes);
+app.use("/api/users", userRoutes);
 
 // app.get('/', (request:Request, response:Response) => {
 //     response.status(200).send(`<div style="background-color: green;">Je crois que tout va bien</div>`)

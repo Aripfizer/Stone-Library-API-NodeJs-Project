@@ -1,6 +1,11 @@
-'use strict';
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, UUIDV4 } from 'sequelize';
-
+"use strict";
+import {
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+  UUIDV4,
+} from "sequelize";
 
 // type UserAttributes = {
 //   id: string,
@@ -9,9 +14,11 @@ import { Model, InferAttributes, InferCreationAttributes, CreationOptional, UUID
 //   password: string,
 // };
 
-
-module.exports = (sequelize:any, DataTypes:any) => {
-  class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+module.exports = (sequelize: any, DataTypes: any) => {
+  class User extends Model<
+    InferAttributes<User>,
+    InferCreationAttributes<User>
+  > {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -22,39 +29,40 @@ module.exports = (sequelize:any, DataTypes:any) => {
     declare email: string;
     declare password: string;
 
-    static associate(models:any) {
+    static associate(models: any) {
       // define association here
       User.hasMany(models.Book);
       User.hasMany(models.Loan);
+      User.hasMany(models.Token);
     }
   }
-  User.init({
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+  User.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      fullname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    fullname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-
-    }, 
-    email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
-  },
-    password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-},
-{
-  tableName: 'users',
-  modelName: 'User',
-  sequelize // passing the `sequelize` instance is required
-}
+    {
+      tableName: "users",
+      modelName: "User",
+      sequelize, // passing the `sequelize` instance is required
+    }
   );
   return User;
 };
