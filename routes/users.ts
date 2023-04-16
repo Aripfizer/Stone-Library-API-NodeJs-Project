@@ -7,10 +7,11 @@ import {
   deleteUser,
 } from "../controllers/users";
 import ensureUserIsAuthenticate from "../middlewares/ensureUserIsAuthenticate";
+import ensureIsAdmin from "../middlewares/ensureIsAdmin";
 
 const router = express.Router();
 
-router.get("/", ensureUserIsAuthenticate, getUsers);
+router.get("/", ensureUserIsAuthenticate, ensureIsAdmin, getUsers);
 
 router.get("/:userID", getUser);
 

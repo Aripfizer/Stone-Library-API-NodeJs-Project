@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import db from "../models";
 
 // interface User {
 //   id: number;
@@ -6,14 +7,10 @@ import { Request, Response } from "express";
 //   email: string;
 // }
 
-const getUsers = (req: Request, res: Response) => {
-  let { fullname, email, password } = req.body;
+const getUsers = async (req: Request, res: Response) => {
+  let allUsers = await db.User.findAll();
 
-  res.status(200).json({
-    fullname: fullname,
-    email: email,
-    password: password,
-  });
+  res.status(200).json(allUsers);
 };
 
 const getUser = (req: Request, res: Response) => {
