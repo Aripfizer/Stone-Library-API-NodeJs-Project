@@ -11,19 +11,13 @@ const ensureIsAdmin = async (
 ) => {
   try {
     if (req.user.role === "admin") {
-      console.log("Welcome ADMIN  ");
-      console.log("Welcome ADMIN  ");
-      console.log("Welcome ADMIN  ");
-      console.log("Welcome ADMIN  ");
-      console.log("Welcome ADMIN  ");
-
       next();
     } else {
       throw new Error();
     }
   } catch (error) {
     res.status(401).json({
-      message: "Requette Non Authoriser!",
+      message: "Requete Non Authoriser!",
     });
   }
 };

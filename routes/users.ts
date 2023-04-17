@@ -5,6 +5,7 @@ import {
   createUser,
   updateUser,
   deleteUser,
+  getAuthenticateUser,
 } from "../controllers/users";
 import ensureUserIsAuthenticate from "../middlewares/ensureUserIsAuthenticate";
 import ensureIsAdmin from "../middlewares/ensureIsAdmin";
@@ -20,5 +21,7 @@ router.post("/", createUser);
 router.put("/:userID", updateUser);
 
 router.delete("/:userID", deleteUser);
+
+
 
 export default router;

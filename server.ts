@@ -5,6 +5,7 @@ import { books } from "./seeders/books";
 import { roles } from "./seeders/roles";
 import userRoutes from "./routes/users";
 import authRoutes from "./routes/auth";
+import selfRoutes from "./routes/self";
 // import crypto from "crypto";
 
 // CONFIGURATIONS
@@ -73,7 +74,7 @@ db.sequelize
 
 app.use("/api", authRoutes);
 app.use("/api/users", userRoutes);
-
+app.use("/api/user", selfRoutes);
 // app.get('/', (request:Request, response:Response) => {
 //     response.status(200).send(`<div style="background-color: green;">Je crois que tout va bien</div>`)
 // });

@@ -7,10 +7,18 @@ import db from "../models";
 //   email: string;
 // }
 
+interface userRequest extends Request {
+  user?: any;
+}
+
 const getUsers = async (req: Request, res: Response) => {
   let allUsers = await db.User.findAll();
 
   res.status(200).json(allUsers);
+};
+
+const getAuthenticateUser = (req: userRequest, res: Response) => {
+  res.status(200).json(req.user);
 };
 
 const getUser = (req: Request, res: Response) => {
@@ -51,4 +59,11 @@ const deleteUser = (req: Request, res: Response) => {
   //   res.status(200).json('User deleted');
 };
 
-export { getUsers, getUser, createUser, updateUser, deleteUser };
+export {
+  getUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  getAuthenticateUser,
+};

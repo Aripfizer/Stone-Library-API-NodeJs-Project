@@ -14,6 +14,10 @@ interface UserResponse {
   token: string;
 }
 
+interface userRequest extends Request {
+  user?: any;
+}
+
 const comparePasswords = async (
   plainPassword: string,
   hashedPassword: string
@@ -34,24 +38,28 @@ const generateAuthToken = async (user: any) => {
 const login = async (req: Request, res: Response) => {
   let { email, password } = req.body;
 
-  const user = await db.User.findOne({ where: { email: email } });
-  // console.log("User ", user);
-  const isPasswordValid = await comparePasswords(password, user.password);
-  let authToken;
+  try {
+    const user = await db.User.findOne({ where: { email: email } });
+    if (!user) throw new Error();
 
-  if (user && isPasswordValid) {
-    authToken = await generateAuthToken(user);
-    console.log("My Token : ", authToken);
+    const isPasswordValid = await comparePasswords(password, user.password);
+    let authToken;
+    if (isPasswordValid) {
+      authToken = await generateAuthToken(user);
+      // console.log("My Token : ", authToken);
 
-    const userResponse: UserResponse = {
-      id: user.id,
-      fullname: user.fullname,
-      email: user.email,
-      token: authToken,
-    };
+      const userResponse: UserResponse = {
+        id: user.id,
+        fullname: user.fullname,
+        email: user.email,
+        token: authToken,
+      };
 
-    res.status(200).json(userResponse);
-  } else {
+      res.status(200).json(userResponse);
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
     res.status(404).json({
       message: "User not found",
     });
@@ -83,4 +91,12 @@ const register = async (req: Request, res: Response) => {
   }
 };
 
-export { login, register };
+const logout = async (req: userRequest, res: Response) => {
+  await db.Token.destroy({ where: { value: req.user.token } });
+
+  res.status(200).json({
+    message: "Déconnexion Effectuée",
+  });
+};
+
+export { login, register, logout };
