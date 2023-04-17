@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import db from "../models";
 
-// interface User {
-//   id: number;
-//   name: string;
-//   email: string;
-// }
+interface UserResponse {
+  id: number;
+  fullname: string;
+  email: string;
+  token: string;
+}
 
 interface userRequest extends Request {
   user?: any;
@@ -21,13 +22,21 @@ const getAuthenticateUser = (req: userRequest, res: Response) => {
   res.status(200).json(req.user);
 };
 
-const getUser = (req: Request, res: Response) => {
-  //   const id = Number(req.params.userID);
-  //   const user = users.find((user: User) => user.id === id);
-  //   if (!user) {
-  //     return res.status(404).send('User not found');
-  //   }
-  //   res.json(user);
+const getUser = async (req: Request, res: Response) => {
+  const id = Number(req.params.userID);
+  const user = await db.User.findByPk(id);
+  console.log("Get User : ", user)
+  if (!user) {
+    return res.status(404).send("User not found");
+  }
+
+  const userResponse: UserResponse = {
+    id: user.id,
+    fullname: user.fullname,
+    email: user.email,
+    token: "",
+  };
+  res.status(200).json(userResponse);
 };
 
 const createUser = (req: Request, res: Response) => {

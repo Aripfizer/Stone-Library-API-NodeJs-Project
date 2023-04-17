@@ -14,14 +14,12 @@ const router = express.Router();
 
 router.get("/", ensureUserIsAuthenticate, ensureIsAdmin, getUsers);
 
-router.get("/:userID", getUser);
+router.get("/:userID", ensureUserIsAuthenticate, ensureIsAdmin, getUser);
 
 router.post("/", createUser);
 
 router.put("/:userID", updateUser);
 
 router.delete("/:userID", deleteUser);
-
-
 
 export default router;
