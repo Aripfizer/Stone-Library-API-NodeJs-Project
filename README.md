@@ -1,6 +1,6 @@
 # STACK Stone Library
 
-  An API project to simulate the operation of a library. Use NodeJs + Express + TypeScript
+  An API project to simulate the operation of a library. Use NodeJs + Express + TypeScript + Postgresql
 
 #Class Diagram (dbdiagram.io)
   
