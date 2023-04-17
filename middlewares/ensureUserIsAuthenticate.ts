@@ -29,11 +29,9 @@ const ensureUserIsAuthenticate = async (
       include: { model: db.Role },
     });
 
-    
     const tokenExistInDatabase = await db.Token.findOne({
-        where: { value: authToken, UserId: decodedToken.id },
+      where: { value: authToken, UserId: decodedToken.id },
     });
-    console.log("USEEEEEEEEER : ", user);
 
     if (user && tokenExistInDatabase) {
       const userResponse: UserResponse = {
@@ -46,7 +44,6 @@ const ensureUserIsAuthenticate = async (
 
       req.user = userResponse;
 
-      console.log("DATAAAAAAAAAAA : ", req.user);
       next();
     } else {
       throw new Error();

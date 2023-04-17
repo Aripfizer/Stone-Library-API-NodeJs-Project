@@ -6,6 +6,7 @@ interface UserResponse {
   fullname: string;
   email: string;
   token: string;
+  role: string;
 }
 
 interface userRequest extends Request {
@@ -24,8 +25,11 @@ const getAuthenticateUser = (req: userRequest, res: Response) => {
 
 const getUser = async (req: Request, res: Response) => {
   const id = Number(req.params.userID);
-  const user = await db.User.findByPk(id);
-  console.log("Get User : ", user)
+  const user = await db.User.findOne({
+    where: { id: id },
+    include: { model: db.Role },
+  });
+  console.log("Get User : ", user);
   if (!user) {
     return res.status(404).send("User not found");
   }
@@ -35,18 +39,41 @@ const getUser = async (req: Request, res: Response) => {
     fullname: user.fullname,
     email: user.email,
     token: "",
+    role: user.Role.name,
   };
   res.status(200).json(userResponse);
 };
 
-const createUser = (req: Request, res: Response) => {
-  //   const newUser: User = {
-  //     id: users.length + 1,
-  //     name: req.body.name,
-  //     email: req.body.email,
-  //   };
-  //   users.push(newUser);
-  //   res.status(201).json(newUser);
+const createUser = async (req: Request, res: Response) => {
+  let { fullname, email, password, role } = req.body;
+
+  // console.log("CREATION : ", fullname);
+  // console.log("CREATION : ", fullname);
+  // console.log("CREATION : ", fullname);
+  try {
+    let roleId = null;
+    if (role) roleId = 2;
+
+    let newUser = await db.User.create({
+      fullname: fullname,
+      email: email,
+      password: password,
+      RoleId: roleId,
+    });
+
+    const userResponse: UserResponse = {
+      id: newUser.id,
+      fullname: newUser.fullname,
+      email: newUser.email,
+      token: "",
+      role: role,
+    };
+
+    res.status(201).json(userResponse);
+  } catch (error: any) {
+    res.status(500).json(error);
+    console.log(error);
+  }
 };
 
 const updateUser = (req: Request, res: Response) => {
