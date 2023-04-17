@@ -39,6 +39,6 @@ router.put(
   updateUser
 );
 
-router.delete("/:userID", deleteUser);
+router.delete("/:userID", ensureUserIsAuthenticate, ensureIsAdmin, deleteUser);
 
 export default router;

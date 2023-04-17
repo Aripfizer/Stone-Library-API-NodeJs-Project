@@ -101,11 +101,27 @@ const updateUser = async (req: Request, res: Response) => {
   res.status(200).json(userResponse);
 };
 
-const deleteUser = (req: Request, res: Response) => {
-  //   const id = Number(req.params.userID);
-  //   const index = users.findIndex((user: User) => user.id === id);
-  //   users.splice(index, 1);
-  //   res.status(200).json('User deleted');
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.userID);
+    let user = await db.User.findByPk(id);
+
+    if (!user) {
+      throw new Error();
+    } else if (user.email === "admin@gmail.com") {
+      throw new Error();
+    }
+
+    await user.destroy();
+
+    res.status(200).json({
+      message: "User supprimer avec success !",
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: "User Not found",
+    });
+  }
 };
 
 export {
