@@ -5,8 +5,8 @@ interface UserResponse {
   id: number;
   fullname: string;
   email: string;
-  token: string;
-  role: string;
+  token: string | null;
+  role: string | null;
 }
 
 interface userRequest extends Request {
@@ -72,20 +72,33 @@ const createUser = async (req: Request, res: Response) => {
     res.status(201).json(userResponse);
   } catch (error: any) {
     res.status(500).json(error);
-    console.log(error);
   }
 };
 
-const updateUser = (req: Request, res: Response) => {
-  //   const id = Number(req.params.userID);
-  //   const index = users.findIndex((user: User) => user.id === id);
-  //   const updatedUser: User = {
-  //     id: users[index].id,
-  //     name: req.body.name,
-  //     email: req.body.email,
-  //   };
-  //   users[index] = updatedUser;
-  //   res.status(200).json('User updated');
+const updateUser = async (req: Request, res: Response) => {
+  const id = Number(req.params.userID);
+  let { fullname, email } = req.body;
+
+  let user = await db.User.findByPk(id);
+
+  if (!user) res.status(404).json("User Not found");
+
+  user.set({
+    fullname: fullname,
+    email: email,
+  });
+
+  user = await user.save();
+
+  const userResponse: UserResponse = {
+    id: user.id,
+    fullname: user.fullname,
+    email: user.email,
+    token: null,
+    role: null,
+  };
+
+  res.status(200).json(userResponse);
 };
 
 const deleteUser = (req: Request, res: Response) => {

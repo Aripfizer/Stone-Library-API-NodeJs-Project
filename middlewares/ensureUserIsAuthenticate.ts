@@ -24,6 +24,7 @@ const ensureUserIsAuthenticate = async (
   try {
     const authToken = req.header("Authorization")?.replace("Bearer ", "")!;
     const decodedToken: any = jwt.verify(authToken, tokenSecret);
+
     const user = await db.User.findOne({
       where: { id: decodedToken.id },
       include: { model: db.Role },
@@ -34,14 +35,16 @@ const ensureUserIsAuthenticate = async (
     });
 
     if (user && tokenExistInDatabase) {
+      let role = null;
+      if (user.Role) role = user.Role.name;
+
       const userResponse: UserResponse = {
         id: user.id,
         fullname: user.fullname,
         email: user.email,
         token: authToken,
-        role: user.Role.name,
+        role: role,
       };
-
       req.user = userResponse;
 
       next();

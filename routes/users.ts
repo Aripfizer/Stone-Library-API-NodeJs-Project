@@ -4,12 +4,16 @@ import {
   getUser,
   createUser,
   updateUser,
-  deleteUser,
-  getAuthenticateUser,
+  deleteUser
 } from "../controllers/users";
 import ensureUserIsAuthenticate from "../middlewares/ensureUserIsAuthenticate";
 import ensureIsAdmin from "../middlewares/ensureIsAdmin";
-import { userCreateValidationRules, validate } from "../middlewares/validator";
+import ensureIsAdminOrOwner from "../middlewares/ensureIsAdminOrOwner";
+import {
+  userCreateValidationRules,
+  userUpdateValidationRules,
+  validate
+} from "../middlewares/validator";
 
 const router = express.Router();
 
@@ -26,7 +30,14 @@ router.post(
   createUser
 );
 
-router.put("/:userID", updateUser);
+router.put(
+  "/:userID",
+  ensureUserIsAuthenticate,
+  ensureIsAdminOrOwner,
+  userUpdateValidationRules(),
+  validate,
+  updateUser
+);
 
 router.delete("/:userID", deleteUser);
 

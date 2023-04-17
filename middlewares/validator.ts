@@ -141,3 +141,32 @@ export const userCreateValidationRules = (): ValidationChain[] => {
       .withMessage("Role doit être 'author', ou vide"),
   ];
 };
+//USER Update
+
+export const userUpdateValidationRules = (): ValidationChain[] => {
+  return [
+    body("email")
+      .isEmail()
+      .withMessage("Veuillez entrer une adresse email valide")
+      .custom(async (value, { req }) => {
+        const user = await db.User.findOne({ where: { email: value } });
+        if (user) {
+          throw new Error("L'adresse email est déjà utiliser");
+        }
+        return true;
+      }),
+
+    body("fullname")
+      .notEmpty()
+      .withMessage("Full name is required")
+      .isString()
+      .withMessage("Full name must be a string")
+      .custom((value) => {
+        const words = value.trim().split(/\s+/);
+        return words.length >= 2;
+      })
+      .withMessage(
+        "Full name must contain at least two words (name and first name)"
+      ),
+  ];
+};
