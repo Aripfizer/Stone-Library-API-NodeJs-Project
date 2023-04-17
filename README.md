@@ -26,27 +26,7 @@
 
 -   [ ] Ajouter un user
 -   [ ] Modifier un user
--   [ ] Suspendre un user
 -   [ ] Consulter la liste des users
--   [ ] Rechercher un user
-
-### Currencies
-
--   [ ] Ajouter une monnaie
--   [ ] Modifier une monnaie (V2)
--   [ ] Suspendre une monnaie (V2)
-
-
-### Investments
-
--   [ ] Faire un investissement
--   [ ] Consulter les investissements effectués
-
-### Investment_types
-
--   [ ] Ajouter un type investissement
--   [ ] Modifier un type investissement
--   [ ] Consulter les types d'investissements 
 
 
 
