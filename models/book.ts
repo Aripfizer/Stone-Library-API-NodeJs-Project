@@ -13,7 +13,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     declare title: string;
     declare isbn: string;
     declare quantity: number;
-    declare resume: string;
+    declare resume: Text;
     declare isValid: boolean;
     declare status: boolean;
     declare publishedAt: Date;
@@ -39,13 +39,14 @@ module.exports = (sequelize:any, DataTypes:any) => {
       isbn: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true
       },
       quantity: {
         type: DataTypes.INTEGER,
         defaultValue: 1,
       },
       resume: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
       },
       isValid: {
         type: DataTypes.BOOLEAN,

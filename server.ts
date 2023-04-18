@@ -3,6 +3,7 @@ import db from "./models";
 import { users } from "./seeders/users";
 import { books } from "./seeders/books";
 import { roles } from "./seeders/roles";
+import { permissions } from "./seeders/permissions";
 import userRoutes from "./routes/users";
 import authRoutes from "./routes/auth";
 import selfRoutes from "./routes/self";
@@ -17,14 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 
 //SEEDERS DATA WILL BE ADD TO THE DATABASE ID NOT EXIST
 
-const createRoles = async () => {
-  roles.map((role) => {
-    db.Role.findOrCreate({
-      where: { name: role.name },
-      defaults: role,
-    });
-  });
-};
+
+
+
 
 // const cryptPassword:string = async (password: string) => {
 //   let salt = await bcrypt.genSalt(10);
@@ -75,6 +71,9 @@ const createBooks = async () => {
 db.sequelize
   .sync()
   .then(async () => {
+    await createPermissions();
+    let users = await db.User.findAll()
+    console.log(users)
     // await createRoles();
     // await createUsers();
     // await createBooks();
