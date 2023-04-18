@@ -34,10 +34,29 @@ const createRoles = async () => {
 // };
 
 const createUsers = async () => {
-  users.map((user) => {
-    db.User.findOrCreate({
+  let adminRole = await db.Role.findOne({ where: { name: "admin" } });
+  let authorRole = await db.Role.findOne({ where: { name: "author" } });
+  let userRole = await db.Role.findOne({ where: { name: "user" } });
+
+  users.map(async (user) => {
+    let roleList: any = [];
+
+    if (user.RoleId === 1) {
+      roleList.push(adminRole);
+    } else if (user.RoleId === 2) {
+      roleList.push(authorRole);
+    } else {
+      roleList.push(userRole);
+    }
+    
+    const newUser = await db.User.findOrCreate({
       where: { email: user.email },
-      defaults: user,
+      defaults: {
+        fullname: user.fullname,
+        email: user.email,
+        password: user.password,
+        roles: roleList,
+      },
     });
   });
 };
@@ -56,9 +75,9 @@ const createBooks = async () => {
 db.sequelize
   .sync()
   .then(async () => {
-    await createRoles();
-    await createUsers();
-    await createBooks();
+    // await createRoles();
+    // await createUsers();
+    // await createBooks();
     // const randomBytes = crypto.randomBytes(64).toString("hex");
     // console.log("yhe key Generated is : ", randomBytes, " END");
 

@@ -5,4 +5,7 @@ export const roles = [
   {
     name: "author",
   },
+  {
+    name: "user",
+  },
 ];

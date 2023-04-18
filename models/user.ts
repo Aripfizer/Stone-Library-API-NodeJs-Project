@@ -4,16 +4,8 @@ import {
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
-  UUIDV4,
 } from "sequelize";
 import bcrypt from "bcryptjs";
-
-// type UserAttributes = {
-//   id: string,
-//   fullname: string,
-//   email: string,
-//   password: string,
-// };
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class User extends Model<
@@ -26,16 +18,16 @@ module.exports = (sequelize: any, DataTypes: any) => {
      * The `models/index` file will call this method automatically.
      */
     declare id: CreationOptional<number>;
-    declare fullname: string;
+    declare firstname: string;
+    declare lastname: string;
     declare email: string;
     declare password: string;
 
     static associate(models: any) {
       // define association here
-      User.hasMany(models.Book);
       User.hasMany(models.Loan);
-      User.hasMany(models.Token);
-      User.belongsTo(models.Role);
+      User.hasMany(models.Book);
+      User.belongsToMany(models.Role, { through: "user_roles" });
     }
   }
   User.init(
@@ -46,7 +38,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      fullname: {
+      firstname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      lastname: {
         type: DataTypes.STRING,
         allowNull: false,
       },

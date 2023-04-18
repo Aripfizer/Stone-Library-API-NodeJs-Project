@@ -6,9 +6,7 @@ npm install @types/node
 npm install express
 npm install @types/express
 
-npm i sequelize sqlite3 body-parser --save
-sequelize-cli
-dotenv
+npm i sequelize body-parser sequelize-cli dotenv
 
 pg pg-hstore
 
@@ -22,6 +20,7 @@ DROP TABLE loans CASCADE;
 DROP TABLE books CASCADE;
 DROP TABLE roles CASCADE;
 DROP TABLE tokens CASCADE;
+DROP TABLE User_Role CASCADE;
 
 
 

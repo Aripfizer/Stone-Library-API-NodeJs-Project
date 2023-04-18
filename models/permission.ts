@@ -7,25 +7,26 @@ import {
 } from "sequelize";
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Token extends Model<
-    InferAttributes<Token>,
-    InferCreationAttributes<Token>
+  class Permission extends Model<
+    InferAttributes<Permission>,
+    InferCreationAttributes<Permission>
   > {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-
     declare id: CreationOptional<number>;
-    declare value: string;
+    declare name: string;
+    declare method: string;
+    declare url: string;
 
     static associate(models: any) {
       // define association here
-      Token.belongsTo(models.User);
+      Permission.belongsToMany(models.Role, { through: "role_permissions" });
     }
   }
-  Token.init(
+  Permission.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -33,16 +34,24 @@ module.exports = (sequelize: any, DataTypes: any) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      value: {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      method: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      url: {
         type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Token",
-      tableName: "tokens",
+      modelName: "Permission",
+      tableName: "permissions",
     }
   );
-  return Token;
+  return Permission;
 };

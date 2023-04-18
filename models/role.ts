@@ -22,7 +22,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
 
     static associate(models: any) {
       // define association here
-      Role.hasOne(models.User);
+      Role.belongsToMany(models.Permission, { through: "role_permissions" });
+
     }
   }
   Role.init(
